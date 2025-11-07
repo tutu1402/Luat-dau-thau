@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc nghiệm Nghiệp vụ Đấu thầu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        <div id="mode-selection">
+            
+            <div class="home-header">
+                <img src="logo-placeholder.png" alt="Logo Đơn vị">
+                <div class="header-titles">
+                    <span class="title-main">HỌC VIỆN KỸ THUẬT QUÂN SỰ</span>
+                    <span class="title-sub">TRUNG TÂM NGHIÊN CỨU, SẢN XUẤT CHẾ THỬ VÀ CHUYỂN GIAO CÔNG NGHỆ PHÍA NAM</span>
+                </div>
+            </div>
+            
+            <h1>PHẦN MỀM THI TRẮC NGHIỆM LUẬT ĐẤU THẦU</h1>
+            <p>Sử dụng bộ 340 câu hỏi của Bộ Kế hoạch & Đầu tư, cập nhập 21/10/2025.</p>
+            
+            <div class="mode-options">
+                <button id="start-learn-btn">
+                    <strong>CHẾ ĐỘ HỌC TẬP</strong>
+                    <span>(Ôn luyện toàn bộ 340 câu, có giải thích ngay)</span>
+                </button>
+                <button id="start-exam-btn">
+                    <strong>CHẾ ĐỘ THI THỬ</strong>
+                    <span>(Thi 60 câu ngẫu nhiên trong 60 phút)</span>
+                </button>
+            </div>
+
+            <div class="exam-rules">
+                <p>Căn cứ khoản 3 Điều 20 Thông tư 02/2024/TT-BKHĐT, kết quả xếp loại chứng chỉ đấu thầu như sau:</p>
+                <ul>
+                    <li><b>Loại xuất sắc:</b> đối với bài thi có kết quả đạt lớn hơn 90% tổng số điểm trở lên.</li>
+                    <li><b>Loại giỏi:</b> đối với bài thi có kết quả đạt từ 80% đến dưới 90% tổng số điểm.</li>
+                    <li><b>Loại khá:</b> đối với bài thi có kết quả đạt từ 60% đến dưới 80% tổng số điểm.</li>
+                    <li><b>Loại trung bình:</b> đối với bài thi có kết quả đạt từ 50% đến dưới 60% tổng số điểm.</li>
+                    <li><b>Không đạt yêu cầu:</b> đối với bài thi có kết quả đạt dưới 50% tổng số điểm.</li>
+                </ul>
+            </div>
+            
+            <footer>
+                Phát triển bởi Nguyễn Quốc Quân năm 2025 (Lưu hành nội bộ)
+            </footer>
+
+        </div>
+
+        <div id="quiz-container" class="hidden">
+            <div id="quiz-header">
+                <button id="back-to-menu-btn" class="hidden">&larr; Quay về Menu</button>
+                <span id="quiz-mode-title"></span>
+                <div id="timer-container" class="hidden">
+                    Thời gian: <span id="timer">60:00</span>
+                </div>
+                <button id="header-submit-btn" class="hidden">Nộp bài</button>
+                <div id="question-counter">
+                    Câu <span id="current-q-num">1</span> / <span id="total-q-num">60</span>
+                </div>
+            </div>
+            
+            <div id="question-text"></div>
+            <div id="options-container"></div>
+
+            <div id="quiz-settings" class="hidden">
+                <input type="checkbox" id="auto-advance-check">
+                <label for="auto-advance-check">Tự động chuyển câu khi chọn xong đáp án</label>
+            </div>
+            
+            <div id="question-matrix" class="hidden">
+                </div>
+            
+            <div id="feedback-container" class="hidden">
+                <strong>Giải thích:</strong>
+                <p id="feedback-text"></p>
+            </div>
+
+            <div id="navigation-container">
+                <button id="prev-btn" class="hidden">Câu trước</button>
+                <button id="next-btn">Câu tiếp theo</button>
+            </div>
+        </div>
+
+        <div id="results-container" class="hidden">
+            <h2>KẾT QUẢ</h2>
+            
+            <div class="results-layout">
+                <div class="results-details">
+                    <div class="detail-item">
+                        <span>Thời gian hoàn thành:</span>
+                        <strong id="time-taken">--:--</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số câu đúng:</span>
+                        <strong id="correct-count">0</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số câu sai:</span>
+                        <strong id="incorrect-count">0</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Số câu chưa làm:</span>
+                        <strong id="unanswered-count">0</strong>
+                    </div>
+                    <div class="detail-item classification">
+                        <span>Xếp loại:</span>
+                        <strong id="classification-text">--</strong>
+                    </div>
+                </div>
+                <div class="results-score">
+                    <div class="score-label">ĐIỂM</div>
+                    <div class="score-value" id="score-percent">0</div>
+                </div>
+            </div>
+            
+            <div id="review-matrix" class="hidden">
+                </div>
+
+            <div class="results-navigation">
+                <button id="restart-btn">Thi lại</button>
+                <button id="review-btn">Xem lại bài làm</button>
+                <button id="back-to-menu-btn-results">Quay về Menu</button>
+            </div>
+            
+            <div id="review-section" class="hidden">
+                <h3>Xem lại các câu trả lời:</h3>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
