@@ -1,520 +1,114 @@
-/* Thiết lập cơ bản */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f4f8;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 20px;
-}
-#app-container {
-    width: 100%;
-    max-width: 800px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-}
-.hidden {
-    display: none !important;
-}
+/* === DÁN VÀO CUỐI FILE STYLE.CSS === */
 
-/* Vùng 1: Chọn chế độ */
-#mode-selection {
-    padding: 30px 40px 40px 40px; 
-    text-align: center; 
-}
+@media (max-width: 700px) {
 
-/* --- (CẬP NHẬT) Header Trang chủ --- */
-.home-header {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    padding-bottom: 20px;
-    margin-bottom: 30px;
-    border-bottom: 2px solid #0d47a1;
-    /* (THAY ĐỔI) Xóa text-align: left */
-}
-.home-header img {
-    height: 80px; 
-    width: 80px;
-    margin-right: 10px;
-    border-radius: 4px;
-    background-color: transparent; 
-    border: none;
-    object-fit: contain;
-}
-.header-titles {
-    display: flex;
-    flex-direction: column;
-    /* (THAY ĐỔI) Căn giữa 2 dòng text */
-    align-items: center;
-    text-align: center;
-}
-.title-main {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #0d47a1; 
-}
-.title-sub {
-    font-size: 0.8em; 
-    font-weight: bold;
-    color: #1976d2; 
-    margin-top: 2px;
-}
-/* --- (HẾT CẬP NHẬT) --- */
+    /* 1. Giảm padding chung */
+    body {
+        padding: 10px;
+    }
+    #mode-selection {
+        padding: 20px 15px; 
+    }
+    #quiz-container,
+    #results-container {
+        padding: 15px;
+    }
 
-#mode-selection h1 {
-    color: #0d47a1;
-    margin-bottom: 10px;
-    font-size: 1.5em;
-    text-transform: uppercase; 
-}
-#mode-selection p {
-    font-size: 1em;
-    color: #555;
-}
+    /* 2. Trang chủ */
+    .home-header {
+        /* Xếp chồng logo và tiêu đề */
+        flex-direction: column;
+        gap: 10px;
+    }
+    .home-header img {
+        height: 60px;
+        width: 60px;
+        margin-right: 0;
+    }
+    .title-main {
+        font-size: 1.2em;
+    }
+    .title-sub {
+        font-size: 0.8em;
+    }
+    #mode-selection h1 {
+        font-size: 1.3em;
+    }
+    .mode-options button {
+        padding: 15px;
+        font-size: 1em;
+    }
 
-.mode-options {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.mode-options button {
-    padding: 20px;
-    font-size: 1.1em;
-    border: 2px solid #0d47a1;
-    background-color: #e3f2fd;
-    color: #0d47a1;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: left;
-}
-.mode-options button:hover {
-    background-color: #bbdefb;
-}
-.mode-options button strong {
-    display: block;
-    margin-bottom: 5px;
-    text-transform: uppercase; 
-}
-.mode-options button span {
-    font-size: 0.9em;
-    color: #1976d2;
-}
+    /* 3. Header của trang thi (cho phép xuống dòng) */
+    #quiz-header {
+        flex-wrap: wrap; /* Rất quan trọng - Cho phép các mục xuống dòng */
+        gap: 10px;
+    }
+    #quiz-mode-title {
+        /* Đẩy tiêu đề lên đầu, chiếm 100% */
+        order: -1;
+        flex-basis: 100%;
+    }
 
-/* Giải thích xếp loại */
-.exam-rules {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    text-align: left;
-    font-size: 0.9em;
-    color: #444;
-}
-.exam-rules p {
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.exam-rules ul {
-    margin-left: 20px;
-    padding-left: 0;
-}
-.exam-rules li {
-    margin-bottom: 5px;
-}
+    /* 4. Ma trận câu hỏi (Rất quan trọng) */
+    #question-matrix,
+    #review-matrix {
+        /* Chuyển từ 10 cột cố định (60px) thành 5 cột linh hoạt */
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        padding: 10px;
+        width: 100%;
+        max-width: 100%; /* Đảm bảo không bị tràn */
+    }
+    .matrix-box,
+    .review-box {
+        /* Bỏ chiều rộng cố định, lấp đầy cột */
+        width: 100%;
+        height: 40px;
+    }
 
-/* Copyright Footer */
-#mode-selection footer {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    font-size: 0.9em;
-    color: #888;
-    text-align: center;
-}
+    /* 5. Cỡ chữ câu hỏi */
+    #question-text {
+        font-size: 1em;
+    }
+    .option-btn {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
 
+    /* 6. Trang kết quả (Rất quan trọng) */
+    .results-layout {
+        /* Xếp chồng điểm và chi tiết */
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+    }
+    .results-details {
+        flex-basis: 100%; /* Chiếm 100% chiều rộng */
+        padding-right: 0;
+        gap: 10px;
+    }
+    .results-score {
+        flex-basis: 100%; /* Chiếm 100% chiều rộng */
+        /* Bỏ border trái, thêm border trên */
+        border-left: none;
+        padding-left: 0;
+        border-top: 2px solid #eee;
+        padding-top: 20px;
+    }
+    .score-value {
+        /* Giảm cỡ chữ điểm số */
+        font-size: 3.5em;
+    }
+    .detail-item {
+        font-size: 1em;
+    }
 
-/* Vùng 2: Trắc nghiệm */
-#quiz-container {
-    padding: 30px;
+    /* 7. Các nút kết quả */
+    .results-navigation button {
+        /* Đảm bảo nút không quá lớn */
+        width: 100%;
+        margin: 5px 0;
+        box-sizing: border-box; /* Quan trọng */
+    }
 }
-#quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #ddd;
-    font-size: 1.1em;
-    gap: 15px; 
-}
-#back-to-menu-btn {
-    background-color: #f5f5f5;
-    color: #555;
-    border: 1px solid #ddd;
-    padding: 8px 12px;
-    font-size: 0.9em;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    white-space: nowrap; 
-}
-#back-to-menu-btn:hover {
-    background-color: #e0e0e0;
-}
-#quiz-mode-title {
-    font-weight: bold;
-    color: #0d47a1;
-    flex-grow: 1; 
-    text-align: center; 
-    text-transform: uppercase; 
-}
-#timer-container {
-    color: #d32f2f;
-    font-weight: bold;
-    white-space: nowrap;
-}
-#question-counter {
-    font-weight: bold;
-    color: #555;
-    white-space: nowrap; 
-}
-#header-submit-btn {
-    background-color: #2e7d32;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    font-size: 0.9em;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-}
-#header-submit-btn:hover {
-    background-color: #1b5e20;
-}
-
-/* Ma trận câu hỏi (Khi thi) - 10 cột, 60px */
-#question-matrix {
-    display: grid;
-    grid-template-columns: repeat(10, 60px); 
-    gap: 5px;
-    justify-content: center; 
-    margin-top: 25px; 
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-.matrix-box {
-    width: 60px; 
-    height: 35px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.9em; 
-    font-weight: bold;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #f5f5f5;
-    color: #555;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-sizing: border-box; 
-}
-.matrix-box:hover {
-    background-color: #e0e0e0;
-}
-.matrix-box.answered {
-    background-color: #e3f2fd; 
-    border-color: #1976d2;
-    color: #0d47a1;
-}
-.matrix-box.current {
-    border-color: #d32f2f;
-    color: #d32f2f;
-    transform: scale(1.1);
-    box-shadow: 0 0 5px rgba(211, 47, 47, 0.5);
-}
-
-/* Tùy chọn Tự động chuyển câu */
-#quiz-settings {
-    margin-top: 25px; 
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    text-align: center;
-    font-size: 0.95em;
-    color: #333;
-}
-#quiz-settings label {
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-#question-text {
-    font-size: 1.1em;
-    font-weight: bold; 
-    margin-bottom: 25px;
-    line-height: 1.5;
-}
-
-#options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.option-btn {
-    width: 100%;
-    padding: 15px 20px;
-    font-size: 1em;
-    text-align: left;
-    background-color: #f5f5f5;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-}
-.option-btn:not(:disabled):hover {
-    background-color: #e0e0e0;
-    border-color: #1976d2;
-}
-.option-btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.9;
-}
-.option-btn.selected {
-    background-color: #bbdefb;
-    border-color: #0d47a1;
-}
-.option-btn.correct {
-    background-color: #c8e6c9; 
-    border-color: #2e7d32;
-    color: #2e7d32;
-}
-.option-btn.incorrect {
-    background-color: #ffcdd2; 
-    border-color: #c62828;
-    color: #c62828;
-}
-
-/* Vùng Giải thích */
-#feedback-container {
-    margin-top: 25px;
-    padding: 20px;
-    background-color: #fffde7;
-    border: 1px solid #fbc02d;
-    border-radius: 8px;
-}
-#feedback-container strong {
-    color: #f57f17;
-}
-#feedback-text {
-    margin-top: 10px;
-    font-size: 0.95em;
-    line-height: 1.6;
-}
-
-/* Vùng Nút điều hướng */
-#navigation-container {
-    margin-top: 20px; 
-    display: flex;
-    justify-content: space-between;
-}
-#navigation-container button {
-    padding: 12px 25px;
-    font-size: 1em;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-#prev-btn {
-    background-color: #eee;
-    color: #555;
-}
-#next-btn {
-    background-color: #1976d2;
-    color: white;
-}
-
-/* Vùng 3: Kết quả */
-#results-container {
-    padding: 40px;
-}
-#results-container h2 {
-    text-align: center;
-    text-transform: uppercase; 
-    color: #0d47a1;
-}
-
-/* Bố cục kết quả (theo hình ảnh) */
-.results-layout {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 30px;
-    margin-top: 20px;
-}
-.results-details {
-    flex-basis: 60%;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.detail-item {
-    font-size: 1.1em;
-    color: #333;
-    display: flex; 
-    justify-content: space-between;
-    padding-right: 10px;
-    text-transform: none; 
-}
-.detail-item span {
-    color: #555;
-    /* Xóa text-transform */
-}
-.detail-item strong {
-    color: #0d47a1;
-    text-transform: none; 
-}
-.classification strong {
-    font-size: 1.2em;
-    color: #d32f2f; 
-}
-.results-score {
-    flex-basis: 35%;
-    text-align: center;
-    border-left: 2px solid #eee;
-    padding-left: 20px;
-}
-.score-label {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 10px;
-    text-transform: uppercase; 
-}
-.score-value {
-    font-size: 4.5em; 
-    font-weight: bold;
-    color: #0d47a1;
-}
-
-/* CSS cho các nút ở Vùng Kết quả */
-.results-navigation {
-    margin-top: 20px;
-    text-align: center;
-}
-#restart-btn, #review-btn, #back-to-menu-btn-results {
-    padding: 12px 25px;
-    font-size: 1em;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px 5px;
-}
-#restart-btn {
-    background-color: #1976d2;
-    color: white;
-}
-#review-btn {
-    background-color: #fbc02d;
-    color: #333;
-}
-#back-to-menu-btn-results {
-    background-color: #757575;
-    color: white;
-}
-
-#review-section {
-    margin-top: 30px;
-    text-align: left;
-}
-.review-item {
-    padding: 20px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
-.review-item p {
-    margin-bottom: 10px;
-}
-.review-item.review-correct {
-    background-color: #f1f8e9;
-}
-.review-item.review-incorrect {
-    background-color: #fff3f3;
-}
-.review-item.review-unanswered {
-    background-color: #fff3f3; 
-    border: 1px solid #c62828; 
-}
-
-.review-answer {
-    padding: 5px;
-    border-radius: 4px;
-}
-.review-answer.correct {
-    background-color: #c8e6c9;
-}
-.review-answer.user-wrong {
-    background-color: #ffcdd2;
-    text-decoration: line-through;
-}
-.review-explanation-hr {
-    border: none;
-    border-top: 1px dashed #ccc;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-/* Ma trận Xem lại (Sau khi thi) - 10 cột, 60px */
-#review-matrix {
-    display: grid;
-    grid-template-columns: repeat(10, 60px); 
-    gap: 5px;
-    justify-content: center;
-    margin: 25px auto; 
-    padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    max-width: 700px;
-}
-.review-box {
-    width: 60px; 
-    height: 35px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.9em; 
-    font-weight: bold;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    box-sizing: border-box; 
-}
-.review-box.correct {
-    background-color: #c8e6c9;
-    border-color: #2e7d32;
-    color: #2e7d32; 
-}
-.review-box.incorrect {
-    background-color: #ffcdd2;
-    border-color: #c62828;
-    color: #c62828; 
-}
-/* CSS MỚI: Ma trận Review - Câu chưa làm */
-.review-box.unanswered {
-    background-color: #f5f5f5; 
-    border-color: #c62828;   
-    color: #c62828;           
-}
-/* Bỏ icon V/X */
-.review-box.correct::after { content: ''; }
-.review-box.incorrect::after { content: ''; }
