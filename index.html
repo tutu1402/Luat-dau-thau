@@ -19,27 +19,44 @@
             </div>
             
             <h1>PHẦN MỀM THI TRẮC NGHIỆM LUẬT ĐẤU THẦU</h1>
-            <p>Sử dụng bộ 340 câu hỏi của Bộ Kế hoạch & Đầu tư, cập nhập 21/10/2025.</p>
+            <p>Sử dụng bộ 340 câu hỏi của Bộ Kế hoạch & Đầu tư.</p>
             
             <div class="mode-options">
-                <button id="start-learn-btn">
-                    <strong>CHẾ ĐỘ HỌC TẬP</strong>
-                    <span>(Ôn luyện toàn bộ 340 câu, có giải thích ngay)</span>
-                </button>
-                <button id="start-exam-btn">
-                    <strong>CHẾ ĐỘ THI THỬ</strong>
-                    <span>(Thi 60 câu ngẫu nhiên trong 60 phút)</span>
-                </button>
+
+                <h3 class="mode-group-title">🎓 Chế độ học tập</h3>
+                <div class="mode-row">
+                    <button id="start-learn-sequential-btn">
+                        <strong>HỌC THEO THỨ TỰ</strong>
+                        <span>(Học 340 câu theo thứ tự ID, có giải thích)</span>
+                    </button>
+                    <button id="start-learn-random-btn">
+                        <strong>LUYỆN TẬP NGẪU NHIÊN</strong>
+                        <span>(Ôn luyện 340 câu, xáo trộn ngẫu nhiên)</span>
+                    </button>
+                </div>
+
+                <h3 class="mode-group-title">⏱️ Chế độ thi thử</h3>
+                <div class="mode-row">
+                    <button id="start-exam-70-btn">
+                        <strong>THI CHỨNG CHỈ (70 Câu)</strong>
+                        <span>(70 câu ngẫu nhiên trong 60 phút)</span>
+                    </button>
+                    <button id="start-exam-10-btn">
+                        <strong>THI NHANH (10 Câu)</strong>
+                        <span>(10 câu ngẫu nhiên trong 10 phút)</span>
+                    </button>
+                </div>
+
             </div>
 
             <div class="exam-rules">
-                <p>Căn cứ khoản 3 Điều 20 Thông tư 02/2024/TT-BKHĐT, kết quả xếp loại chứng chỉ như sau:</p>
+                <p>Theo khoản 3 Điều 20 Thông tư 02/2024/TT-BKHĐT, kết quả xếp loại chứng chỉ như sau:</p>
                 <ul>
-                    <li><b>Loại xuất sắc:</b> đối với bài thi có kết quả đạt lớn hơn 90% tổng số điểm trở lên.</li>
-                    <li><b>Loại giỏi:</b> đối với bài thi có kết quả đạt từ 80% đến dưới 90% tổng số điểm.</li>
-                    <li><b>Loại khá:</b> đối với bài thi có kết quả đạt từ 60% đến dưới 80% tổng số điểm.</li>
-                    <li><b>Loại trung bình:</b> đối với bài thi có kết quả đạt từ 50% đến dưới 60% tổng số điểm.</li>
-                    <li><b>Không đạt yêu cầu:</b> đối với bài thi có kết quả đạt dưới 50% tổng số điểm.</li>
+                    <li><b>Loại xuất sắc:</b> kết quả đạt lớn hơn 90% tổng số điểm trở lên.</li>
+                    <li><b>Loại giỏi:</b> kết quả đạt từ 80% đến dưới 90% tổng số điểm.</li>
+                    <li><b>Loại khá:</b> kết quả đạt từ 60% đến dưới 80% tổng số điểm.</li>
+                    <li><b>Loại trung bình:</b> kết quả đạt từ 50% đến dưới 60% tổng số điểm.</li>
+                    <li><b>Không đạt yêu cầu:</b> kết quả đạt dưới 50% tổng số điểm.</li>
                 </ul>
             </div>
             
@@ -70,19 +87,20 @@
                 <label for="auto-advance-check">Tự động chuyển câu khi chọn xong đáp án</label>
             </div>
             
+            <div id="navigation-container">
+                <button id="prev-btn" class="hidden">Câu trước</button>
+                <button id="next-btn">Câu tiếp theo</button>
+            </div>
+            
             <div id="question-matrix" class="hidden">
-                </div>
+            </div>
             
             <div id="feedback-container" class="hidden">
                 <strong>Giải thích:</strong>
                 <p id="feedback-text"></p>
             </div>
-
-            <div id="navigation-container">
-                <button id="prev-btn" class="hidden">Câu trước</button>
-                <button id="next-btn">Câu tiếp theo</button>
+            
             </div>
-        </div>
 
         <div id="results-container" class="hidden">
             <h2>KẾT QUẢ</h2>
@@ -117,7 +135,7 @@
             </div>
             
             <div id="review-matrix" class="hidden">
-                </div>
+            </div>
 
             <div class="results-navigation">
                 <button id="restart-btn">Thi lại</button>
@@ -127,12 +145,17 @@
             
             <div id="review-section" class="hidden">
                 <h3>Xem lại các câu trả lời:</h3>
-            </div>
+                
+                <div class="review-footer-nav">
+                    <button id="scroll-to-top-btn">Lên đầu trang</button>
+                    <button id="restart-btn-bottom">Thi lại</button>
+                    <button id="back-to-menu-btn-bottom">Quay về Menu</button>
+                </div>
+                </div>
         </div>
     </div>
 
     <script src="data.js"></script>
     <script src="app.js"></script>
 </body>
-
 </html>

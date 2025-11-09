@@ -83,6 +83,18 @@ body {
     flex-direction: column;
     gap: 15px;
 }
+
+/* === Dàn 2 nút trên 1 hàng === */
+.mode-row {
+    display: flex;
+    gap: 15px; /* Khoảng cách giữa 2 nút */
+    width: 100%;
+}
+.mode-row button {
+    flex: 1; /* Chia đều 50% cho mỗi nút */
+    /* Các style khác được kế thừa từ .mode-options button */
+}
+
 .mode-options button {
     padding: 20px;
     font-size: 1.1em;
@@ -91,7 +103,11 @@ body {
     color: #0d47a1;
     border-radius: 8px;
     cursor: pointer;
-    text-align: left;
+    text-align: center; /* Đã sửa theo yêu cầu trước */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .mode-options button:hover {
     background-color: #bbdefb;
@@ -105,6 +121,23 @@ body {
     font-size: 0.9em;
     color: #1976d2;
 }
+
+/* CSS CHO TIÊU ĐỀ NHÓM */
+.mode-group-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #555;
+    margin-top: 20px; /* Tạo khoảng cách với nhóm trên */
+    margin-bottom: 0; /* Giảm khoảng cách với nút bên dưới */
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+/* Bỏ khoảng cách trên cho tiêu đề đầu tiên */
+.mode-options .mode-group-title:first-of-type {
+    margin-top: 0;
+}
+
 
 /* Giải thích xếp loại */
 .exam-rules {
@@ -201,16 +234,16 @@ body {
 /* Ma trận câu hỏi (Khi thi) - 10 cột, 40px */
 #question-matrix {
     display: grid;
-    grid-template-columns: repeat(10, 40px); /* <-- ĐÃ THAY ĐỔI */
+    grid-template-columns: repeat(10, 40px); 
     gap: 5px;
     justify-content: center; 
-    margin-top: 25px; 
+    margin-top: 25px; /* <-- ĐÃ THAY ĐỔI: Thêm margin-top */
     padding-top: 20px;
     border-top: 1px solid #eee;
 }
 .matrix-box {
-    width: 40px; /* <-- ĐÃ THAY ĐỔI */
-    height: 28px; /* <-- ĐÃ THAY ĐỔI */
+    width: 40px; 
+    height: 28px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -274,6 +307,7 @@ body {
     border: 2px solid #ddd;
     border-radius: 8px;
     cursor: pointer;
+    line-height: 1.4; /* Giúp đáp án dài xuống dòng đẹp hơn */
 }
 .option-btn:not(:disabled):hover {
     background-color: #e0e0e0;
@@ -319,7 +353,7 @@ body {
 #navigation-container {
     margin-top: 20px; 
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; (Đã bỏ) */
 }
 #navigation-container button {
     padding: 12px 25px;
@@ -336,6 +370,7 @@ body {
 #next-btn {
     background-color: #1976d2;
     color: white;
+    margin-left: auto; /* (Đã thêm) */
 }
 
 /* Vùng 3: Kết quả */
@@ -477,7 +512,7 @@ body {
 /* Ma trận Xem lại (Sau khi thi) - 10 cột, 40px */
 #review-matrix {
     display: grid;
-    grid-template-columns: repeat(10, 40px); /* <-- ĐÃ THAY ĐỔI */
+    grid-template-columns: repeat(10, 40px); 
     gap: 5px;
     justify-content: center;
     margin: 25px auto; 
@@ -487,8 +522,8 @@ body {
     max-width: 700px;
 }
 .review-box {
-    width: 40px; /* <-- ĐÃ THAY ĐỔI */
-    height: 28px; /* <-- ĐÃ THAY ĐỔI */
+    width: 40px; 
+    height: 28px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -509,15 +544,51 @@ body {
     border-color: #c62828;
     color: #c62828; 
 }
-/* CSS MỚI: Ma trận Review - Câu chưa làm */
 .review-box.unanswered {
     background-color: #f5f5f5; 
     border-color: #c62828;   
     color: #c62828;           
 }
-/* Bỏ icon V/X */
 .review-box.correct::after { content: ''; }
 .review-box.incorrect::after { content: ''; }
+
+/* === THÊM MỚI: CSS CHO 3 NÚT CUỐI TRANG REVIEW === */
+.review-footer-nav {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #ccc;
+    text-align: center;
+}
+
+#scroll-to-top-btn,
+#restart-btn-bottom,
+#back-to-menu-btn-bottom {
+    /* Kế thừa style từ các nút kết quả */
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+}
+
+/* Màu sắc riêng */
+#scroll-to-top-btn {
+    background-color: #fbc02d; /* Màu vàng giống "Xem lại" */
+    color: #333;
+}
+
+#restart-btn-bottom {
+    background-color: #1976d2; /* Màu xanh giống "Thi lại" */
+    color: white;
+}
+
+#back-to-menu-btn-bottom {
+    background-color: #757575; /* Màu xám giống "Quay về" */
+    color: white;
+}
+/* === KẾT THÚC THÊM MỚI === */
 
 
 /* === PHẦN CSS RESPONSIVE CHO ĐIỆN THOẠI === */
@@ -538,7 +609,6 @@ body {
 
     /* 2. Trang chủ */
     .home-header {
-        /* Xếp chồng logo và tiêu đề */
         flex-direction: column;
         gap: 10px;
     }
@@ -560,14 +630,27 @@ body {
         padding: 15px;
         font-size: 1em;
     }
+    /* Thêm cho tiêu đề nhóm */
+    .mode-group-title {
+        font-size: 1.1em;
+        margin-top: 15px;
+    }
+
+    /* Xếp chồng các nút trên điện thoại */
+    .mode-row {
+        flex-direction: column; /* Xếp chồng 2 nút */
+        gap: 15px; /* Giữ nguyên khoảng cách */
+    }
+    .mode-row button {
+        width: 100%; /* Mỗi nút chiếm 100% */
+    }
 
     /* 3. Header của trang thi (cho phép xuống dòng) */
     #quiz-header {
-        flex-wrap: wrap; /* Rất quan trọng - Cho phép các mục xuống dòng */
+        flex-wrap: wrap; 
         gap: 10px;
     }
     #quiz-mode-title {
-        /* Đẩy tiêu đề lên đầu, chiếm 100% */
         order: -1;
         flex-basis: 100%;
     }
@@ -575,18 +658,16 @@ body {
     /* 4. Ma trận câu hỏi (Rất quan trọng) */
     #question-matrix,
     #review-matrix {
-        /* Chuyển từ 10 cột cố định (40px) thành 8 cột linh hoạt */
-        grid-template-columns: repeat(8, 1fr);
-        gap: 5px;
+        grid-template-columns: repeat(8, 1fr); 
+        gap: 5px; 
         padding: 10px;
         width: 100%;
-        max-width: 100%; /* Đảm bảo không bị tràn */
+        max-width: 100%; 
     }
     .matrix-box,
     .review-box {
-        /* Bỏ chiều rộng cố định, lấp đầy cột */
         width: 100%;
-        height: 32px; /* <-- ĐÃ THAY ĐỔI */
+        height: 32px; 
     }
 
     /* 5. Cỡ chữ câu hỏi */
@@ -600,37 +681,34 @@ body {
 
     /* 6. Trang kết quả (Rất quan trọng) */
     .results-layout {
-        /* Xếp chồng điểm và chi tiết */
         flex-direction: column;
         padding: 20px;
         gap: 20px;
     }
     .results-details {
-        flex-basis: 100%; /* Chiếm 100% chiều rộng */
+        flex-basis: 100%; 
         padding-right: 0;
         gap: 10px;
     }
     .results-score {
-        flex-basis: 100%; /* Chiếm 100% chiều rộng */
-        /* Bỏ border trái, thêm border trên */
+        flex-basis: 100%; 
         border-left: none;
         padding-left: 0;
         border-top: 2px solid #eee;
         padding-top: 20px;
     }
     .score-value {
-        /* Giảm cỡ chữ điểm số */
         font-size: 3.5em;
     }
     .detail-item {
         font-size: 1em;
     }
 
-    /* 7. Các nút kết quả */
-    .results-navigation button {
-        /* Đảm bảo nút không quá lớn */
+    /* 7. Các nút kết quả (Bao gồm cả nút cuối trang) */
+    .results-navigation button,
+    .review-footer-nav button { /* <-- ĐÃ CẬP NHẬT */
         width: 100%;
         margin: 5px 0;
-        box-sizing: border-box; /* Quan trọng */
+        box-sizing: border-box; 
     }
 }

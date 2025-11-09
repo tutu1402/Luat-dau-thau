@@ -10,17 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerInterval;
     let totalTimeTaken = 0; // Đếm thời gian thi (giây)
     let isExamMode = false;
-    
-    const EXAM_QUESTIONS_COUNT = 60; 
-    const EXAM_TIME_SECONDS = 60 * 60; // 60 phút
 
+    // Biến lưu trữ chế độ thi cuối cùng
+    let lastExamCount = 70;
+    let lastExamTime = 60 * 60; // Mặc định là 70 câu, 60 phút
+    
     // --- Lấy các phần tử DOM ---
     const modeSelection = document.getElementById('mode-selection');
     const quizContainer = document.getElementById('quiz-container');
     const resultsContainer = document.getElementById('results-container');
 
-    const startLearnBtn = document.getElementById('start-learn-btn');
-    const startExamBtn = document.getElementById('start-exam-btn');
+    const startLearnSequentialBtn = document.getElementById('start-learn-sequential-btn');
+    const startLearnRandomBtn = document.getElementById('start-learn-random-btn');
+    const startExam70Btn = document.getElementById('start-exam-70-btn');
+    const startExam10Btn = document.getElementById('start-exam-10-btn');
 
     const backToMenuBtn = document.getElementById('back-to-menu-btn'); 
     const quizModeTitle = document.getElementById('quiz-mode-title');
@@ -57,10 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const backToMenuBtnResults = document.getElementById('back-to-menu-btn-results');
 
+    // === THÊM MỚI: 3 NÚT Ở CUỐI TRANG REVIEW ===
+    const scrollTopBtn = document.getElementById('scroll-to-top-btn');
+    const restartBtnBottom = document.getElementById('restart-btn-bottom');
+    const backToMenuBtnBottom = document.getElementById('back-to-menu-btn-bottom');
+
     // --- Hàm khởi tạo ---
     function initializeApp() {
-        // *** LƯU Ý: Dữ liệu của bạn phải có cấu trúc:
-        // allQuestions = [ { question: "...", options: {A:"...", B:"..."}, answer: "A", explanation: "..." } ]
         if (typeof allQuestions === 'undefined' || allQuestions.length === 0) {
             document.getElementById('app-container').innerHTML = '<p style="color: red; padding: 20px;">LỖI: Không tìm thấy dữ liệu câu hỏi. Hãy đảm bảo tệp `data.js` đã được tải và được tải TRƯỚC tệp `app.js` trong HTML.</p>';
             return; 
@@ -70,13 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Thiết lập sự kiện ---
     function setupEventListeners() {
-        startLearnBtn.addEventListener('click', startLearnMode);
-        startExamBtn.addEventListener('click', startExamMode);
+        startLearnSequentialBtn.addEventListener('click', startLearnSequentialMode);
+        startLearnRandomBtn.addEventListener('click', startLearnRandomMode);
+        startExam70Btn.addEventListener('click', () => startExamMode(70, 60 * 60)); // 70 câu, 60 phút
+        startExam10Btn.addEventListener('click', () => startExamMode(10, 10 * 60)); // 10 câu, 10 phút
+
         prevBtn.addEventListener('click', showPreviousQuestion);
         nextBtn.addEventListener('click', showNextQuestion);
         headerSubmitBtn.addEventListener('click', confirmSubmitExam);
         
-        restartBtn.addEventListener('click', startExamMode); 
+        restartBtn.addEventListener('click', () => {
+            startExamMode(lastExamCount, lastExamTime);
+        }); 
         
         reviewBtn.addEventListener('click', () => {
             reviewSection.classList.toggle('hidden');
@@ -86,12 +97,29 @@ document.addEventListener('DOMContentLoaded', () => {
         backToMenuBtn.addEventListener('click', resetToModeSelection);
         
         backToMenuBtnResults.addEventListener('click', resetToModeSelection);
+
+        // === THÊM MỚI: SỰ KIỆN CHO 3 NÚT MỚI ===
+        scrollTopBtn.addEventListener('click', () => {
+            // Cuộn lên đầu trang (hoặc đầu #app-container)
+            document.getElementById('app-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        restartBtnBottom.addEventListener('click', () => {
+            // Mô phỏng lại hành động nhấn nút "Thi lại" ở trên
+            restartBtn.click();
+        });
+        backToMenuBtnBottom.addEventListener('click', () => {
+            // Mô phỏng lại hành động nhấn nút "Quay về Menu" ở trên
+            backToMenuBtnResults.click();
+        });
+        // === KẾT THÚC THÊM MỚI ===
     }
 
     // --- Các hàm Chế độ ---
-    function startLearnMode() {
+
+    // Chế độ 1: Học theo thứ tự
+    function startLearnSequentialMode() {
         isExamMode = false;
-        currentQuestions = shuffleArray(allQuestions); 
+        currentQuestions = [...allQuestions]; // Không xáo trộn
         currentQuestionIndex = 0;
         
         modeSelection.classList.add('hidden');
@@ -103,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         headerSubmitBtn.classList.add('hidden'); 
         quizSettings.classList.add('hidden'); 
         
-        quizModeTitle.innerText = "CHẾ ĐỘ HỌC TẬP"; 
+        quizModeTitle.innerText = "HỌC THEO THỨ TỰ"; 
         timerContainer.classList.add('hidden');
         nextBtn.classList.remove('hidden');
         prevBtn.classList.remove('hidden'); 
@@ -111,12 +139,39 @@ document.addEventListener('DOMContentLoaded', () => {
         displayQuestion();
     }
 
-    function startExamMode() {
+    // Chế độ 2: Học ngẫu nhiên
+    function startLearnRandomMode() {
+        isExamMode = false;
+        currentQuestions = shuffleArray(allQuestions); // Xáo trộn
+        currentQuestionIndex = 0;
+        
+        modeSelection.classList.add('hidden');
+        resultsContainer.classList.add('hidden');
+        quizContainer.classList.remove('hidden');
+        
+        backToMenuBtn.classList.remove('hidden'); 
+        questionMatrix.classList.add('hidden'); 
+        headerSubmitBtn.classList.add('hidden'); 
+        quizSettings.classList.add('hidden'); 
+        
+        quizModeTitle.innerText = "LUYỆN TẬP NGẪU NHIÊN"; 
+        timerContainer.classList.add('hidden');
+        nextBtn.classList.remove('hidden');
+        prevBtn.classList.remove('hidden'); 
+
+        displayQuestion();
+    }
+
+    // Hàm Thi (chung)
+    function startExamMode(questionCount, timeInSeconds) {
         isExamMode = true;
         
+        lastExamCount = questionCount;
+        lastExamTime = timeInSeconds;
+
         let examQuestionPool = shuffleArray(allQuestions);
-        if (examQuestionPool.length >= EXAM_QUESTIONS_COUNT) {
-             currentQuestions = examQuestionPool.slice(0, EXAM_QUESTIONS_COUNT);
+        if (examQuestionPool.length >= questionCount) {
+             currentQuestions = examQuestionPool.slice(0, questionCount);
         } else {
              currentQuestions = examQuestionPool; 
         }
@@ -135,12 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
         headerSubmitBtn.classList.remove('hidden'); 
         quizSettings.classList.remove('hidden'); 
         
-        quizModeTitle.innerText = "CHẾ ĐỘ THI THỬ"; 
+        quizModeTitle.innerText = `THI ${questionCount} CÂU`; 
         timerContainer.classList.remove('hidden');
-        timerEl.innerText = `${String(Math.floor(EXAM_TIME_SECONDS / 60)).padStart(2, '0')}:00`;
+        timerEl.innerText = `${String(Math.floor(timeInSeconds / 60)).padStart(2, '0')}:00`;
         nextBtn.classList.remove('hidden');
 
-        startTimer(EXAM_TIME_SECONDS);
+        startTimer(timeInSeconds);
         displayQuestion(); 
     }
 
@@ -150,11 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < currentQuestions.length; i++) {
             const box = document.createElement('div');
             box.className = 'matrix-box';
-            
-            // ===================================
-            // === SỬA 1: Bỏ chữ "Câu " ===
             box.innerText = (i + 1); 
-            // ===================================
 
             if (userAnswers[i] !== null) {
                 box.classList.add('answered');
@@ -192,7 +243,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentQNumEl.innerText = currentQuestionIndex + 1;
         totalQNumEl.innerText = currentQuestions.length;
 
-        // Đảm bảo "options" là một object
         if (typeof question.options !== 'object' || question.options === null) {
             console.error("Lỗi: Cấu trúc 'options' không hợp lệ cho câu hỏi:", question);
             return;
@@ -201,7 +251,9 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const [key, value] of Object.entries(question.options)) {
             const button = document.createElement('button');
             button.className = 'option-btn';
-            button.innerHTML = `<strong>${key}:</strong> ${value}`; // Dùng innerHTML để nhận <strong>
+            
+            button.innerHTML = `<strong>${key}.</strong> ${value}`; 
+            
             button.dataset.key = key; 
 
             if (isExamMode && userAnswers[currentQuestionIndex] === key) {
@@ -253,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            feedbackText.innerHTML = question.explanation; // Dùng innerHTML nếu giải thích có HTML
+            feedbackText.innerHTML = question.explanation; 
             feedbackContainer.classList.remove('hidden');
         }
     }
@@ -339,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         submitExam();
     }
 
-    // --- (CẬP NHẬT LỚN) Nộp bài & Hiển thị Kết quả ---
+    // --- Nộp bài & Hiển thị Kết quả ---
     function submitExam() {
         clearInterval(timerInterval);
         
@@ -360,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const minutesTaken = Math.floor(totalTimeTaken / 60);
         const secondsTaken = totalTimeTaken % 60;
         
-        // (CẬP NHẬT) Tính toán xếp loại (Theo TT 02/2024)
         let classification = "";
         let classificationColor = "#0d47a1"; 
         
@@ -384,26 +435,31 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.classList.add('hidden');
         resultsContainer.classList.remove('hidden');
         reviewSection.classList.add('hidden'); 
-        reviewSection.innerHTML = '<h3>Xem lại các câu trả lời:</h3>'; 
-
+        
+        // ======================================
+        // === SỬA LỖI Ở ĐÂY ===
+        // Thay vì xóa innerHTML, chỉ xóa các '.review-item' cũ
+        const oldItems = reviewSection.querySelectorAll('.review-item');
+        oldItems.forEach(item => item.remove());
+        // ======================================
+        
         reviewBtn.classList.remove('hidden');
         restartBtn.innerText = "Thi lại";
         backToMenuBtnResults.classList.remove('hidden'); 
 
-        // (CẬP NHẬT) Đổ dữ liệu (viết thường)
         timeTakenEl.innerText = `${minutesTaken} phút ${secondsTaken} giây`;
         correctCountEl.innerText = score;
         incorrectCountEl.innerText = incorrectCount;
         unansweredCountEl.innerText = unansweredCount;
         scorePercentEl.innerText = scoreDisplay; 
-        classificationTextEl.innerText = classification; // (Viết thường/Theo kết quả)
+        classificationTextEl.innerText = classification; 
         classificationTextEl.style.color = classificationColor; 
 
         generateReviewMatrix(); 
         generateReviewContent(); 
     }
 
-    // --- (CẬP NHẬT) Vẽ ma trận kết quả (Số + Màu + Chưa làm) ---
+    // --- Vẽ ma trận kết quả ---
     function generateReviewMatrix() {
         reviewMatrix.innerHTML = ''; 
         reviewMatrix.classList.remove('hidden'); 
@@ -412,20 +468,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const box = document.createElement('div');
             box.className = 'review-box';
             
-            // ===================================
-            // === SỬA 2: Bỏ chữ "Câu " ===
             box.innerText = (index + 1); 
-            // ===================================
             
             const userAnsKey = userAnswers[index];
             const correctAnsKey = q.answer;
 
             if (userAnsKey === null) {
-                box.classList.add('unanswered'); // (MỚI) Viền đỏ, nền xám
+                box.classList.add('unanswered'); 
             } else if (userAnsKey === correctAnsKey) {
-                box.classList.add('correct'); // Nền xanh
+                box.classList.add('correct'); 
             } else {
-                box.classList.add('incorrect'); // Nền đỏ
+                box.classList.add('incorrect'); 
             }
             
             box.addEventListener('click', () => jumpToReviewItem(index));
@@ -441,18 +494,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
-            // Hiệu ứng highlight tạm thời
             targetElement.style.transition = 'none';
-            targetElement.style.backgroundColor = '#fffde7'; // Màu vàng nhạt
+            targetElement.style.backgroundColor = '#fffde7'; 
             setTimeout(() => {
                 targetElement.style.transition = 'background-color 0.5s ease';
-                targetElement.style.backgroundColor = ''; // Trở lại màu ban đầu
-            }, 500); // Nửa giây highlight
+                targetElement.style.backgroundColor = ''; 
+            }, 500); 
         }
     }
 
-    // --- Hiển thị Review (Xử lý câu chưa làm) ---
+    // --- Hiển thị Review ---
     function generateReviewContent() {
+        // Lấy footer ra (nó đã có sẵn trong HTML)
+        const footerNav = document.querySelector('.review-footer-nav');
+        
         currentQuestions.forEach((q, index) => {
             const item = document.createElement('div');
             item.className = 'review-item';
@@ -478,7 +533,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (key === userAnsKey && !isCorrect) {
                     classType = 'user-wrong'; 
                 }
-                optionsHtml += `<div class="review-answer ${classType}"><strong>${key}:</strong> ${value}</div>`;
+                
+                optionsHtml += `<div class="review-answer ${classType}"><strong>${key}.</strong> ${value}</div>`;
             }
 
             let questionTitle = `<strong>Câu ${index + 1}:</strong> ${q.question}`;
@@ -494,17 +550,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     <strong>Giải thích:</strong> ${q.explanation || 'Không có giải thích.'}
                 </div>
             `;
-            reviewSection.appendChild(item);
+            // Thêm item VÀO TRƯỚC footer
+            reviewSection.insertBefore(item, footerNav);
         });
     }
 
     function resetToModeSelection() {
-        // Ẩn các vùng
         resultsContainer.classList.add('hidden');
         quizContainer.classList.add('hidden');
         modeSelection.classList.remove('hidden');
         
-        // Đặt lại các nút/vùng con về trạng thái mặc định
         backToMenuBtn.classList.add('hidden'); 
         questionMatrix.classList.add('hidden');
         headerSubmitBtn.classList.add('hidden');
@@ -512,15 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewMatrix.classList.add('hidden'); 
         backToMenuBtnResults.classList.add('hidden'); 
 
-        // Dừng timer
         clearInterval(timerInterval);
-        
-        // Reset biến
-        currentQuestions = [];
-        currentQuestionIndex = 0;
-        userAnswers = [];
-        score = 0;
-        isExamMode = false;
     }
 
     // --- Hàm tiện ích (Xáo trộn mảng) ---
