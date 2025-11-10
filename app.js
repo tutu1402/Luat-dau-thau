@@ -546,8 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>${questionTitle}</p>
                 ${optionsHtml}
                 <hr class="review-explanation-hr">
-                <div class="feedback-container" style="display:block; border-color: #fbc02d; background-color: #fffde7;">
-                    <strong>Giải thích:</strong> ${q.explanation || 'Không có giải thích.'}
+                <div class="feedback-container" style="display:block; border-color: #fbc02d; background-color: #fffde7;"><strong>Giải thích:</strong> ${q.explanation || 'Không có giải thích.'}
                 </div>
             `;
             // Thêm item VÀO TRƯỚC footer
@@ -582,4 +581,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Khởi chạy ứng dụng ---
     initializeApp();
+
 });
