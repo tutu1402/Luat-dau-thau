@@ -712,3 +712,8 @@ body {
         box-sizing: border-box; 
     }
 }
+/* Sửa lỗi hiển thị xuống dòng cho phần giải thích */
+#feedback-text,
+.review-item .feedback-container {
+    white-space: pre-wrap;
+}
